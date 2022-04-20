@@ -13,6 +13,12 @@ variable "function_name" {
   type        = string
 }
 
+variable "function_version" {
+  description = "The version of your Lambda Function to deploy."
+  type        = string
+  default     = "1" # Default to version 1
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.

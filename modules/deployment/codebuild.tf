@@ -43,7 +43,7 @@ resource "aws_codebuild_project" "this" {
 
     environment_variable {
       name  = "ALIAS_NAME"
-      value = var.alias_name
+      value = aws_lambda_alias.this.name
     }
 
     environment_variable {

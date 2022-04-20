@@ -7,6 +7,16 @@ locals {
   artifact_store_bucket_arn = "arn:${data.aws_partition.current.partition}:s3:::${local.artifact_store_bucket}"
 }
 
+resource "aws_lambda_alias" "this" {
+  function_name    = var.function_name
+  function_version = var.function_version
+  name             = var.alias_name
+
+  lifecycle {
+    ignore_changes = [function_version]
+  }
+}
+
 resource "aws_codepipeline" "this" {
   name     = var.function_name
   role_arn = var.codepipeline_role_arn == "" ? aws_iam_role.codepipeline_role[0].arn : var.codepipeline_role_arn
@@ -94,10 +104,15 @@ resource "aws_codepipeline" "this" {
 resource "aws_s3_bucket" "pipeline" {
   count = var.codepipeline_artifact_store_bucket == "" ? 1 : 0
 
-  acl           = "private"
+#  acl           = "private"
   bucket        = "${var.function_name}-pipeline"
   force_destroy = true
   tags          = var.tags
+}
+
+resource "aws_s3_bucket_acl" "pipeline" {
+  bucket = aws_s3_bucket.pipeline[0].id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_public_access_block" "source" {
