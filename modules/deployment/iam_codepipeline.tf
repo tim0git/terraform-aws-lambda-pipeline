@@ -1,7 +1,7 @@
 resource "aws_iam_role" "codepipeline_role" {
   count = var.codepipeline_role_arn == "" ? 1 : 0
 
-  name = "${var.function_name}-codepipeline-role"
+  name = "${var.function_name}-codepipeline"
   tags = var.tags
 
   assume_role_policy = jsonencode({
@@ -21,7 +21,7 @@ resource "aws_iam_role" "codepipeline_role" {
   dynamic "inline_policy" {
     for_each = var.s3_bucket != "" ? [true] : []
     content {
-      name = "${var.function_name}-codepipeline-s3-${data.aws_region.current.name}"
+      name = "${var.function_name}-codepipeline-s3"
 
       policy = jsonencode({
         Version = "2012-10-17"
@@ -45,7 +45,7 @@ resource "aws_iam_role" "codepipeline_role" {
   dynamic "inline_policy" {
     for_each = var.ecr_repository_name != "" ? [true] : []
     content {
-      name = "${var.function_name}-codepipeline-ecr-${data.aws_region.current.name}"
+      name = "${var.function_name}-codepipeline-ecr"
 
       policy = jsonencode({
         Version = "2012-10-17"
@@ -61,7 +61,7 @@ resource "aws_iam_role" "codepipeline_role" {
   }
 
   inline_policy {
-    name = "${var.function_name}-codepipeline-${data.aws_region.current.name}"
+    name = "${var.function_name}-codepipeline"
 
     policy = jsonencode({
       Version = "2012-10-17"

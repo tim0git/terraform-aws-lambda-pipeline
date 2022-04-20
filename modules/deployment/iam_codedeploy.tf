@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codedeploy" {
-  name = "${var.function_name}-codedeploy-${data.aws_region.current.name}"
+  name = "${var.function_name}-codedeploy"
   tags = var.tags
 
   assume_role_policy = jsonencode({

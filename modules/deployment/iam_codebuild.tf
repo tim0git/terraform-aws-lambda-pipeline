@@ -1,7 +1,7 @@
 resource "aws_iam_role" "codebuild_role" {
   count = var.codebuild_role_arn == "" ? 1 : 0
 
-  name = "${var.function_name}-codebuild-${data.aws_region.current.name}"
+  name = "${var.function_name}-codebuild"
   tags = var.tags
 
   assume_role_policy = jsonencode({
@@ -19,7 +19,7 @@ resource "aws_iam_role" "codebuild_role" {
   })
 
   inline_policy {
-    name = "${var.function_name}-codebuild-${data.aws_region.current.name}"
+    name = "${var.function_name}-codebuild"
 
     policy = jsonencode({
       Version = "2012-10-17"
@@ -76,7 +76,7 @@ resource "aws_iam_role" "codebuild_role" {
   dynamic "inline_policy" {
     for_each = var.s3_bucket != "" ? [true] : []
     content {
-      name = "${var.function_name}-codebuild-s3-${data.aws_region.current.name}"
+      name = "${var.function_name}-codebuild-s3"
 
       policy = jsonencode({
         Version = "2012-10-17"
