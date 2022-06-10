@@ -18,7 +18,7 @@ resource "aws_lambda_alias" "this" {
 }
 
 resource "aws_codepipeline" "this" {
-  name     = var.function_name
+  name     = "${var.project_name}-pipeline"
   role_arn = var.codepipeline_role_arn == "" ? aws_iam_role.codepipeline_role[0].arn : var.codepipeline_role_arn
   tags     = var.tags
 
@@ -105,7 +105,7 @@ resource "aws_s3_bucket" "pipeline" {
   count = var.codepipeline_artifact_store_bucket == "" ? 1 : 0
 
 #  acl           = "private"
-  bucket        = "${var.function_name}-pipeline"
+  bucket        = lower("${var.project_name}-codepipeline-artifacts-store")
   force_destroy = true
   tags          = var.tags
 }

@@ -13,6 +13,11 @@ variable "function_name" {
   type        = string
 }
 
+variable "project_name" {
+  description = "The name of your CodePipline project."
+  type        = string
+}
+
 variable "function_version" {
   description = "The version of your Lambda Function to deploy."
   type        = string

@@ -5,7 +5,7 @@ resource "aws_cloudwatch_log_group" "this" {
 }
 
 resource "aws_codebuild_project" "this" {
-  name         = "${var.function_name}-deployment"
+  name         = var.project_name
   service_role = var.codebuild_role_arn == "" ? aws_iam_role.codebuild_role[0].arn : var.codebuild_role_arn
   tags         = var.tags
 
